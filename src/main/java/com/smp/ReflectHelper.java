@@ -3,7 +3,6 @@ package com.smp;
 import java.lang.reflect.Field;
 
 /**
- * @author Administrator
  *	反射工具
  */
 public class ReflectHelper {

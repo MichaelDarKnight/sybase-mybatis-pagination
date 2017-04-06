@@ -17,7 +17,7 @@ import java.util.Map;
 
 /**
  * sybase 分页
- * Created by 孙少平 on 2017/3/17.
+ * Created by ssp on 2017/3/17.
  */
 @Component
 public class SybasePagination {
@@ -33,10 +33,25 @@ public class SybasePagination {
         return sqlSessionFactory.getConfiguration().getMappedStatement(mapperId);
     }
 
+    /**
+     * mybatis游标分页方法
+     * @param mapperId mybatis 映射id 如：com.smp.mapper.CustomMapper.findByListPage
+     * @param params 分页参数 暂时只支持Page类型参数
+     * @return 分页结果
+     */
     public List<PageData> listPage(String mapperId, Object params) throws SQLException, NoSuchFieldException, IllegalAccessException {
         return queryForListPage(sqlSessionFactory.openSession().getConnection(), getBoundSql(mapperId, params), getMappedStatement(mapperId), (Page) params);
     }
 
+    /**
+     * 分页核心方法，处理游标分页操作
+     * 由于是使用jdbc游标分页，所以此处使用JdbcTemplate简化操作。
+     * @param connection 数据库连接
+     * @param boundSql 分页BoundSql
+     * @param mappedStatement 分页 MappedStatement
+     * @param page 分页Page类
+     * @return 分页结果
+     */
     @SuppressWarnings("unchecked")
     private List<PageData> queryForListPage(final Connection connection, final BoundSql boundSql, final MappedStatement mappedStatement, final Page page) throws SQLException, NoSuchFieldException, IllegalAccessException {
         //分页count

@@ -7,7 +7,7 @@ import java.util.List;
 
 /**
  * 分页mapper
- * Created by Administrator on 2017/3/18.
+ * Created by ssp on 2017/3/18.
  */
 public interface PaginationMapper{
 
